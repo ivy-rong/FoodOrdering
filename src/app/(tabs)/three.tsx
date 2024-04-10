@@ -6,7 +6,7 @@ import { Text, View } from '@/src/components/Themed'
 export default function TabThreeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={styles.title}>three</Text>
       {/* <View
         style={styles.separator}
         lightColor="#eee"

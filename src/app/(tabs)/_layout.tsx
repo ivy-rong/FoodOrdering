@@ -63,9 +63,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="productList"
+        name="two"
         options={{
-          title: 'Tab Two productList',
+          title: 'Two',
           tabBarIcon: ({ color }) => (
             <TabBarIcon
               name="code"
@@ -74,18 +74,18 @@ export default function TabLayout() {
           )
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="three"
         options={{
-          title: 'Orders',
+          title: 'three',
           tabBarIcon: ({ color }) => (
             <TabBarIcon
-              name="list"
+              name="code"
               color={color}
             />
           )
         }}
-      /> */}
+      />
     </Tabs>
   )
 }

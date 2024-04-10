@@ -1,5 +1,5 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
+import Colors from '@/src/constants/Colors'
 import { Product } from '@/src/types'
 import { Link } from 'expo-router'
 
@@ -10,30 +10,45 @@ interface Props {
 const defaultImage = 'https://via.placeholder.com/150'
 
 export default function ProductItem({ product }: Props) {
+  console.log(product.image)
   return (
-    <Link href={{ pathname: '/detail' }}>
-      <View style={styles.container}>
-        <Image source={{ uri: product?.image || defaultImage }}></Image>
-        <Text>{product?.name}</Text>
-        <Text>{product?.price}</Text>
-      </View>
+    <Link
+      href={{ pathname: '/detail' }}
+      asChild
+    >
+      <Pressable style={styles.container}>
+        <Image
+          style={styles.image}
+          source={{ uri: product.image || defaultImage }}
+        />
+        <Text style={styles.title}>{product.name}</Text>
+        <Text style={styles.price}>${product.price}</Text>
+      </Pressable>
     </Link>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // padding: 20,
-    borderWidth: 1
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 20,
+    flex: 1,
+    maxWidth: '50%'
   },
+
+  image: {
+    width: '100%',
+    aspectRatio: 1
+  },
+
   title: {
-    fontSize: 20,
-    fontWeight: 'bold'
+    fontSize: 18,
+    fontWeight: '600',
+    marginVertical: 10
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%'
+  price: {
+    color: Colors.light.tint,
+    fontWeight: 'bold'
   }
 })
