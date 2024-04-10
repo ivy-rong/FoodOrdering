@@ -58,7 +58,7 @@ const ProductDetailsScreen = () => {
         type="primary"
         onPress={addToCard}
       >
-        Add to card
+        Add to cart
       </Button>
     </View>
   )
