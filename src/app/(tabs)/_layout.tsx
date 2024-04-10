@@ -35,8 +35,13 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
+        options={{ href: null, headerShown: false }}
+      ></Tabs.Screen>
+      <Tabs.Screen
+        name="menu"
         options={{
           title: 'menu',
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon
               name="cutlery"
@@ -65,22 +70,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Two',
+          title: 'Orders',
           tabBarIcon: ({ color }) => (
             <TabBarIcon
-              name="code"
-              color={color}
-            />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name="three"
-        options={{
-          title: 'three',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon
-              name="code"
+              name="list"
               color={color}
             />
           )

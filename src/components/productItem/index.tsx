@@ -13,9 +13,10 @@ export default function ProductItem({ product }: Props) {
   console.log(product.image)
   return (
     <Link
-      href={{ pathname: '/detail' }}
+      href={`/menu/${product.id}`}
       asChild
     >
+      {/* href={`/${segments[0]}/menu/${product.id}`} */}
       <Pressable style={styles.container}>
         <Image
           style={styles.image}
