@@ -2,9 +2,10 @@ import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
 
 import { PizzaSize } from '@/src/types'
+import { Button, Icon } from '@ant-design/react-native'
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams()
@@ -13,9 +14,11 @@ const ProductDetailsScreen = () => {
 
   if (!product) return <Text>product not find</Text>
 
-  const [size, setSize] = useState<PizzaSize>()
+  const [selectSize, setSelectSize] = useState<PizzaSize>('M')
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
+
+  const addToCard = () => {}
 
   return (
     <View style={styles.container}>
@@ -25,18 +28,38 @@ const ProductDetailsScreen = () => {
         source={{ uri: product.image }}
       />
 
-      <Text>Select Size</Text>
+      <Text style={styles.selectSize}>Select Size</Text>
       <View style={styles.sizes}>
         {sizes.map((size) => (
           <Pressable
+            key={size}
             onPress={() => {
-              setSize(size)
+              setSelectSize(size)
             }}
+            style={[styles.size, { backgroundColor: selectSize === size ? '#ddd' : '#fff' }]}
           >
-            <Text>{size}</Text>
+            <Text
+              style={[
+                styles.sizeText,
+                {
+                  color: selectSize === size ? '#000' : 'gray'
+                }
+              ]}
+            >
+              {size}
+            </Text>
           </Pressable>
         ))}
       </View>
+
+      <Text style={styles.title}>${product.price}</Text>
+
+      <Button
+        type="primary"
+        onPress={addToCard}
+      >
+        Add to card
+      </Button>
     </View>
   )
 }
@@ -58,7 +81,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    marginVertical: 10
+    marginVertical: 10,
+    marginTop: 'auto'
+  },
+  selectSize: {
+    fontSize: 18
   },
   price: {
     color: Colors.light.tint,
@@ -66,9 +93,21 @@ const styles = StyleSheet.create({
   },
   sizes: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     marginVertical: 10,
     alignItems: 'center'
+  },
+  size: {
+    borderRadius: 30,
+    aspectRatio: 1,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  sizeText: {
+    fontSize: 20,
+    fontWeight: '500'
   }
 })
 
