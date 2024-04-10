@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import EditScreenInfo from '@/src/components/EditScreenInfo'
 import { Text, View } from '@/src/components/Themed'
 
-export default function TabTwoScreen() {
+export default function TabThreeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>

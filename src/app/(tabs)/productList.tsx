@@ -1,18 +1,27 @@
-import { StyleSheet } from 'react-native'
+import { SafeAreaView, FlatList, StyleSheet, StatusBar } from 'react-native'
 
 import EditScreenInfo from '@/src/components/EditScreenInfo'
 import { Text, View } from '@/src/components/Themed'
+import ProductItem from '@/src/components/productItem'
 
-export default function TabTwoScreen() {
+import products from '@/assets/data/products'
+
+export default function Product() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      {/* <View
+      <FlatList
+        data={products}
+        renderItem={({ item }) => <ProductItem product={item} />}
+      />
+
+      {/* <Text style={styles.title}>Tab One</Text>
+      <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="app/(tabs)/two.tsx" /> */}
+
+      <EditScreenInfo path="app/(tabs)/index.tsx" /> */}
     </View>
   )
 }
