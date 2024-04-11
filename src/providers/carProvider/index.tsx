@@ -1,12 +1,16 @@
-import { createContext } from 'react'
+import { createContext, PropsWithChildren } from 'react'
+import { CartItem } from '@/src/types'
 
-export const cartContext = createContext<any>({})
+export const cartContext = createContext<cartType>({
+  item: [],
+  addItem: () => {}
+})
 
 interface Props {
   children: React.ReactNode
 }
 
-const CartProvider = ({ children }) => {
+const CartProvider = ({ children }: PropsWithChildren) => {
   return
   ;<cartContext.Provider
     value={{
