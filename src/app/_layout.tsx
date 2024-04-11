@@ -57,7 +57,6 @@ function RootLayoutNav() {
             name="(tabs)"
             options={{ headerShown: false }}
           />
-
           <Stack.Screen
             name="cart"
             options={{ presentation: 'modal' }}
