@@ -19,7 +19,7 @@ import { CartItem, PizzaSize, Product } from '@/src/types'
 export default function CardScreen() {
   const cart = useCart()
   return (
-    <View style={s.container}>
+    <View className="flex-1 items-center justify-center bg-white">
       <Text>{cart.items.length}</Text>
       <Button
         onPress={() =>
@@ -50,8 +50,7 @@ export default function CardScreen() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+
     padding: 20
   },
   title: {

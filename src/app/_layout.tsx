@@ -9,6 +9,11 @@ import { useColorScheme } from '@/src/components/useColorScheme'
 
 import CartProvider from '@/src/providers/carProvider'
 
+import { Slot } from 'expo-router'
+
+// Import your global CSS file
+import '../global.css'
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary
@@ -43,7 +48,11 @@ export default function RootLayout() {
     return null
   }
 
-  return <RootLayoutNav />
+  return (
+    <RootLayoutNav>
+      <Slot />
+    </RootLayoutNav>
+  )
 }
 
 function RootLayoutNav() {
