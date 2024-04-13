@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { Link } from 'expo-router'
 
 import EditScreenInfo from '@/src/components/EditScreenInfo'
 import { Text, View } from '@/src/components/Themed'
@@ -7,6 +8,12 @@ export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
+      <Link href="/(admin)/menu">
+        <Text>/admin/menus</Text>
+      </Link>
+      <Link href="/(user)/menu">
+        <Text>/user/menu</Text>
+      </Link>
       {/* <View
         style={styles.separator}
         lightColor="#eee"

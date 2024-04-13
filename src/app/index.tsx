@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 
 const Index = () => {
   return (
-    <View className="flex-1 justify-center  items-center bg-white !gap-4 !px-10">
+    <View className="flex-1 justify-center  items-center bg-white gap-4 px-10">
       <Link
         href={'/(user)'}
         asChild
