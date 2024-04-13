@@ -28,6 +28,17 @@ const Index = () => {
           Admin
         </Button>
       </Link>
+      <Link
+        href={'/(auth)/login'}
+        asChild
+      >
+        <Button
+          type="primary"
+          style={{ width: '100%' }}
+        >
+          login
+        </Button>
+      </Link>
     </View>
   )
 }
