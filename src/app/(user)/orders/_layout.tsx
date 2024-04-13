@@ -5,13 +5,13 @@ import Colors from '@/src/constants/Colors'
 import { useColorScheme } from '@/src/components/useColorScheme'
 import { useClientOnlyValue } from '@/src/components/useClientOnlyValue'
 
-export default function MenuStack() {
+export default function OrderStack() {
   const colorScheme = useColorScheme()
   return (
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ title: 'Menu' }}
+        options={{ title: 'Orders' }}
       />
     </Stack>
   )
