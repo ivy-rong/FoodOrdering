@@ -1,11 +1,12 @@
 import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
 
 import { PizzaSize } from '@/src/types'
 import { Button, Icon } from '@ant-design/react-native'
+import { FontAwesome } from '@expo/vector-icons'
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams()
@@ -23,14 +24,36 @@ const ProductDetailsScreen = () => {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product?.name }} />
+      <Stack.Screen
+        options={{
+          title: 'Menu',
+          headerRight: () => (
+            <Link
+              href={`/(admin)/menu/create?id=${id}`}
+              asChild
+            >
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          )
+        }}
+      />
       <Image
         style={styles.image}
         source={{ uri: product.image }}
       />
 
-      <Text style={styles.selectSize}>Select Size</Text>
+      <Text style={styles.title}>name:{product.name}</Text>
 
-      <Text style={styles.title}>${product.price}</Text>
+      <Text style={styles.title}>price:{product.price}</Text>
     </View>
   )
 }
@@ -52,8 +75,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    marginVertical: 10,
-    marginTop: 'auto'
+    marginVertical: 10
   },
   selectSize: {
     fontSize: 18
@@ -61,24 +83,6 @@ const styles = StyleSheet.create({
   price: {
     color: Colors.light.tint,
     fontWeight: 'bold'
-  },
-  sizes: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-    alignItems: 'center'
-  },
-  size: {
-    borderRadius: 30,
-    aspectRatio: 1,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  sizeText: {
-    fontSize: 20,
-    fontWeight: '500'
   }
 })
 

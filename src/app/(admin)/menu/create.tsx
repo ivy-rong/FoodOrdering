@@ -1,8 +1,17 @@
 import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Image, Pressable, ImageBackground } from 'react-native'
+import { useEffect, useState } from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+  Pressable,
+  ImageBackground,
+  Alert
+} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { PizzaSize } from '@/src/types'
 import { Button, Icon, InputItem, List } from '@ant-design/react-native'
@@ -21,6 +30,8 @@ const CreateScreen = () => {
     price: '',
     image: ''
   })
+
+  const updateProductItem = products.filter((product) => product.id === id)[0]
 
   const [errors, setErrors] = useState('')
 
@@ -73,6 +84,23 @@ const CreateScreen = () => {
     }
   }
 
+  const handleDelete = () => {
+    Alert.alert('Are you sure?', 'Do you really want to delete this product?', [
+      { text: 'No', style: 'cancel' },
+      { text: 'Yes', onPress: () => console.log('OK Pressed') }
+    ])
+  }
+
+  useEffect(() => {
+    if (updateProductItem) {
+      updateProduct((draft) => {
+        draft.name = updateProductItem.name
+        draft.price = updateProductItem.price.toString()
+        draft.image = updateProductItem.image
+      })
+    }
+  }, [updateProductItem])
+
   return (
     <View
       //style={styles.container}
@@ -115,12 +143,17 @@ const CreateScreen = () => {
         style={styles.input}
       />
 
+      <Text className="text-red-400 mb-2">{errors}</Text>
+
       <Button
         type="primary"
         onPress={handelSubmit}
+        style={styles.button}
       >
-        create
+        {isUpdating ? 'update' : 'create'}
       </Button>
+
+      {isUpdating && <Button onPress={handleDelete}>delete</Button>}
     </View>
   )
 }
@@ -150,6 +183,9 @@ const styles = StyleSheet.create({
   label: {
     color: 'gray',
     fontSize: 16
+  },
+  button: {
+    marginBottom: 10
   }
 })
 
