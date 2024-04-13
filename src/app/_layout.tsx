@@ -9,8 +9,6 @@ import { useColorScheme } from '@/src/components/useColorScheme'
 
 import CartProvider from '@/src/providers/carProvider'
 
-import { Slot } from 'expo-router'
-
 // Import your global CSS file
 import '../global.css'
 
@@ -48,11 +46,7 @@ export default function RootLayout() {
     return null
   }
 
-  return (
-    <RootLayoutNav>
-      <Slot />
-    </RootLayoutNav>
-  )
+  return <RootLayoutNav />
 }
 
 function RootLayoutNav() {
