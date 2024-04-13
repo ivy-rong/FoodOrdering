@@ -9,13 +9,19 @@ import { useColorScheme } from '@/src/components/useColorScheme'
 
 import CartProvider from '@/src/providers/carProvider'
 
-// Import your global CSS file
-import '../global.css'
+// import { NativeWindStyleSheet } from 'nativewind'
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary
-} from 'expo-router'
+// NativeWindStyleSheet.setOutput({
+//   default: 'native'
+// })
+
+// Import your global CSS file
+import '@/assets/styles/global.css'
+
+// export {
+//   // Catch any errors thrown by the Layout component.
+//   ErrorBoundary
+// } from 'expo-router'
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -57,7 +63,11 @@ function RootLayoutNav() {
       <CartProvider>
         <Stack>
           <Stack.Screen
-            name="(tabs)"
+            name="(user)"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(admin)"
             options={{ headerShown: false }}
           />
           <Stack.Screen

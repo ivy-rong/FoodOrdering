@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import Colors from '@/src/constants/Colors'
 import { Product } from '@/src/types'
-import { Link } from 'expo-router'
+import { Link, useSegments } from 'expo-router'
 
 interface Props {
   product: Product
@@ -10,10 +10,14 @@ interface Props {
 const defaultImage = 'https://via.placeholder.com/150'
 
 export default function ProductItem({ product }: Props) {
+  const segments = useSegments()
+  console.log(segments)
   console.log(product.image)
+  const path = segments[0] || '(user)'
+
   return (
     <Link
-      href={`/menu/${product.id}`}
+      href={`/${String(segments[0])}/menu/${product.id}`}
       asChild
     >
       {/* href={`/${segments[0]}/menu/${product.id}`} */}
