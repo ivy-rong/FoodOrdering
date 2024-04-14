@@ -1,17 +1,19 @@
 import { FlatList, StyleSheet } from 'react-native'
 
-import ProductItem from '@/src/components/productItem'
+import OrderItem from '@/src/components/orderItem'
 
-import products from '@/assets/data/products'
+import orders from '@/assets/data/orders'
 
 export default function Order() {
   return (
     <FlatList
-      numColumns={2}
+      showsVerticalScrollIndicator={true}
+      // scrollEnabled={false}
+      horizontal={false}
+      numColumns={1}
       contentContainerStyle={{ gap: 10, padding: 10 }}
-      columnWrapperStyle={{ gap: 10 }}
-      data={products}
-      renderItem={({ item }) => <ProductItem product={item} />}
+      data={orders}
+      renderItem={({ item }) => <OrderItem order={item} />}
     />
   )
 }
