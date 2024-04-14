@@ -12,8 +12,6 @@ export default function OrderDetailScreen() {
 
   const orderItem = orders.find((item) => item.id.toString() === id)
 
-  console.log(orderItem)
-
   if (!orderItem) return <Text>order not find</Text>
   return (
     <View style={styles.container}>

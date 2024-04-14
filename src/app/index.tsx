@@ -10,9 +10,9 @@ const Index = () => {
 
   if (!session) return <Redirect href="/login" />
 
-  if (!isAdmin) return <Redirect href="/(user)" />
+  // if (!isAdmin) return <Redirect href="/(user)" />
 
-  console.log('index', session)
+  //console.log('index', session)
   return (
     <View className="flex-1 justify-center  items-center bg-white gap-4 px-10">
       <Link

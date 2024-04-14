@@ -11,8 +11,7 @@ const defaultImage = 'https://via.placeholder.com/150'
 
 export default function ProductItem({ product }: Props) {
   const segments = useSegments()
-  console.log(segments)
-  console.log(product.image)
+
   const path = segments[0] || '(user)'
 
   return (

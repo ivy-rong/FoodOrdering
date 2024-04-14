@@ -42,7 +42,7 @@ const CreateScreen = () => {
     })
 
     if (!result.canceled) {
-      console.log(result)
+      //console.log(result)
       updateProduct((draft) => {
         draft.image = result.assets[0].uri
       })
