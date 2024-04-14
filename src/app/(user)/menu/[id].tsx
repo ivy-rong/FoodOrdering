@@ -1,6 +1,6 @@
 import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
 
@@ -54,12 +54,17 @@ const ProductDetailsScreen = () => {
 
       <Text style={styles.title}>${product.price}</Text>
 
-      <Button
-        type="primary"
-        onPress={addToCard}
+      <Link
+        href="/cart"
+        asChild
       >
-        Add to cart
-      </Button>
+        <Button
+          type="primary"
+          onPress={addToCard}
+        >
+          Add to cart
+        </Button>
+      </Link>
     </View>
   )
 }

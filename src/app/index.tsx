@@ -4,9 +4,13 @@ import { View, Text } from 'react-native'
 import { useAuth } from '@/src/providers/authProvider'
 
 const Index = () => {
-  const { session } = useAuth()
+  const { session, loading, isAdmin } = useAuth()
+
+  if (loading) return <Text>Loading...</Text>
 
   if (!session) return <Redirect href="/login" />
+
+  if (!isAdmin) return <Redirect href="/(user)" />
 
   console.log('index', session)
   return (

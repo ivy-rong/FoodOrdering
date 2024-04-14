@@ -1,9 +1,17 @@
 import { StyleSheet } from 'react-native'
 
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
+
+import { useAuth } from '@/src/providers/authProvider'
 
 export default function AuthLayout() {
-  return <Stack></Stack>
+  const { session } = useAuth()
+
+  if (session) {
+    return <Redirect href="/" />
+  }
+
+  return <Stack />
 }
 
 const styles = StyleSheet.create({
