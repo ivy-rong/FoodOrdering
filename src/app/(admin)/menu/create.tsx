@@ -1,6 +1,6 @@
 import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
   View,
@@ -13,21 +13,27 @@ import {
   Alert
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { PizzaSize } from '@/src/types'
+import { PizzaSize, Product } from '@/src/types'
 import { Button, Icon, InputItem, List } from '@ant-design/react-native'
 import { useImmer } from 'use-immer'
+import { useInsertProduct } from '@/src/api'
 
 export const defaultPizzaImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 const CreateScreen = () => {
   const { id: idString } = useLocalSearchParams()
+
+  const { mutate: insertProduct } = useInsertProduct()
+
+  const router = useRouter()
+
   const id = parseFloat(typeof idString === 'string' ? idString : idString?.[0])
   const isUpdating = !!idString
 
-  const [product, updateProduct] = useImmer({
+  const [product, updateProduct] = useImmer<Omit<Product, 'id'>>({
     name: '',
-    price: '',
+    price: 0,
     image: ''
   })
 
@@ -68,6 +74,11 @@ const CreateScreen = () => {
     return true
   }
 
+  const resetFields = () => {
+    // updateProduct({
+    // })
+  }
+
   const handleCreate = () => {
     console.log(product)
   }
@@ -81,6 +92,14 @@ const CreateScreen = () => {
       handleProduct()
     } else {
       handleCreate()
+      insertProduct(product, {
+        onSuccess: () => {
+          console.log('Product created successfully')
+          //清空数据
+          resetFields()
+          router.back()
+        }
+      })
     }
   }
 
@@ -95,7 +114,7 @@ const CreateScreen = () => {
     if (updateProductItem) {
       updateProduct((draft) => {
         draft.name = updateProductItem.name
-        draft.price = updateProductItem.price.toString()
+        draft.price = updateProductItem.price
         draft.image = updateProductItem.image
       })
     }

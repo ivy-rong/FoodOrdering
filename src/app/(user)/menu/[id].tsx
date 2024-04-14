@@ -1,20 +1,34 @@
-import products from '@/assets/data/products'
 import Colors from '@/src/constants/Colors'
 import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ImageBackground,
+  ActivityIndicator
+} from 'react-native'
 
 import { PizzaSize } from '@/src/types'
 import { Button, Icon } from '@ant-design/react-native'
+import { useProduct } from '@/src/api'
 
 const ProductDetailsScreen = () => {
-  const { id } = useLocalSearchParams()
+  const { id: idString } = useLocalSearchParams()
 
-  const product = products.find((product) => product.id.toString() === id)
+  const [selectSize, setSelectSize] = useState<PizzaSize>('M')
+
+  const id = parseFloat(typeof idString === 'string' ? idString : idString[0])
+
+  const { data: product, isLoading, error } = useProduct(id)
 
   if (!product) return <Text>product not find</Text>
 
-  const [selectSize, setSelectSize] = useState<PizzaSize>('M')
+  if (isLoading) return <ActivityIndicator />
+
+  if (error) return <Text>{error.message}</Text>
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 

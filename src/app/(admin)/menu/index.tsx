@@ -9,9 +9,8 @@ export default function Product() {
 
   if (isLoading) return <ActivityIndicator />
 
-  if (error) {
-    return <Text>{error.message}</Text>
-  }
+  if (error) return <Text>{error.message}</Text>
+
   return (
     <FlatList
       numColumns={2}
