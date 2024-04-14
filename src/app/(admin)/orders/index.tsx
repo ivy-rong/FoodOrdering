@@ -1,21 +1,5 @@
-import { FlatList, StyleSheet } from 'react-native'
+import { Redirect } from 'expo-router'
 
-import OrderItem from '@/src/components/orderItem'
-
-import orders from '@/assets/data/orders'
-
-export default function Order() {
-  return (
-    <FlatList
-      showsVerticalScrollIndicator={true}
-      // scrollEnabled={false}
-      horizontal={false}
-      numColumns={1}
-      contentContainerStyle={{ gap: 10, padding: 10 }}
-      data={orders}
-      renderItem={({ item }) => <OrderItem order={item} />}
-    />
-  )
+export default function Index() {
+  return <Redirect href="/(admin)/orders/list/" />
 }
-
-const styles = StyleSheet.create({})

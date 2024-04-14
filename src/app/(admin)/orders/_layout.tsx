@@ -11,7 +11,11 @@ export default function OrderStack() {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ title: 'Orders' }}
+        options={{ title: 'index1111', headerShown: true }}
+      />
+      <Stack.Screen
+        name="list"
+        options={{ title: 'order', headerShown: true }}
       />
     </Stack>
   )
