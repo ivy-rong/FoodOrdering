@@ -56,10 +56,10 @@ class LargeSecureStore {
   }
 }
 
-const supabaseUrl = YOUR_REACT_NATIVE_SUPABASE_URL
-const supabaseAnonKey = YOUR_REACT_NATIVE_SUPABASE_ANON_KEY
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+const supabaseUrl = 'https://bsncskyuyjjabojgfyjc.supabase.co'
+const supabaseAnonKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzbmNza3l1eWpqYWJvamdmeWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTMwOTY5NzgsImV4cCI6MjAyODY3Mjk3OH0.j5q3dr8PTsjs0VKNite9wRAsmWaERl8dldeFj5oIZww'
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: new LargeSecureStore(),
     autoRefreshToken: true,
