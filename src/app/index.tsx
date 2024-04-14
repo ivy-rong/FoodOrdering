@@ -1,12 +1,12 @@
 import { Button, WhiteSpace } from '@ant-design/react-native'
 import { Link, Redirect } from 'expo-router'
-import { View, Text } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 import { useAuth } from '@/src/providers/authProvider'
 
 const Index = () => {
   const { session, loading, isAdmin } = useAuth()
 
-  if (loading) return <Text>Loading...</Text>
+  if (loading) return <ActivityIndicator />
 
   if (!session) return <Redirect href="/login" />
 

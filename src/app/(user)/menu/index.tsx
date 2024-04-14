@@ -2,23 +2,10 @@ import { ActivityIndicator, FlatList, StyleSheet, Text } from 'react-native'
 
 import ProductItem from '@/src/components/productItem'
 
-import products from '@/assets/data/products'
-
-import { supabase } from '@/src/lib/supabase'
-
-import { useQuery } from '@tanstack/react-query'
+import { useProductList } from '@/src/api'
 
 export default function Product() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => {
-      const { data, error } = await supabase.from('products').select('*')
-      if (error) {
-        throw new Error(error.message)
-      }
-      return data
-    }
-  })
+  const { data, isLoading, error } = useProductList()
 
   if (isLoading) return <ActivityIndicator />
 
