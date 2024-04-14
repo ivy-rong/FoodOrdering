@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Colors from '../../constants/Colors'
 import { Link, Stack } from 'expo-router'
 import { Button } from '@ant-design/react-native'
+import { supabase } from '@/src/lib'
 
 const SignUp = () => {
   const [email, setEmail] = useState('')
@@ -12,10 +13,10 @@ const SignUp = () => {
 
   async function signUpWithEmail() {
     setLoading(true)
-    // const { error } = await supabase.auth.signUp({ email, password })
+    const { error } = await supabase.auth.signUp({ email, password })
 
-    // if (error) Alert.alert(error.message)
-    // setLoading(false)
+    if (error) Alert.alert(error.message)
+    setLoading(false)
   }
 
   return (
@@ -38,19 +39,22 @@ const SignUp = () => {
         style={styles.input}
         secureTextEntry
       />
+      <View className="flex !gap-4">
+        <Button
+          onPress={signUpWithEmail}
+          disabled={loading}
+          type="primary"
+        >
+          {loading ? '注册中' : '注册'}
+        </Button>
 
-      <Button
-        onPress={signUpWithEmail}
-        // disabled={loading}
-      >
-        signup
-      </Button>
-      <Link
-        href="/(auth)/login"
-        style={styles.textButton}
-      >
-        Login
-      </Link>
+        <Link
+          href="/(auth)/login"
+          style={styles.textButton}
+        >
+          登录
+        </Link>
+      </View>
     </View>
   )
 }
@@ -76,6 +80,7 @@ const styles = StyleSheet.create({
   textButton: {
     alignSelf: 'center',
     fontWeight: 'bold',
+    fontSize: 18,
     color: Colors.light.tint,
     marginVertical: 10
   }

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Colors from '../../constants/Colors'
 import { Link, Stack } from 'expo-router'
 import { Button } from '@ant-design/react-native'
+import { supabase } from '@/src/lib'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -12,13 +13,13 @@ const Login = () => {
 
   async function signInWithEmail() {
     setLoading(true)
-    // const { error } = await supabase.auth.signInWithPassword({
-    //   email,
-    //   password
-    // })
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
 
-    // if (error) Alert.alert(error.message)
-    // setLoading(false)
+    if (error) Alert.alert(error.message)
+    setLoading(false)
   }
 
   return (
@@ -44,15 +45,16 @@ const Login = () => {
 
       <Button
         onPress={signInWithEmail}
-        // disabled={loading}
+        disabled={loading}
+        type="primary"
       >
-        Login
+        {loading ? '登录中' : '登录'}
       </Button>
       <Link
         href="/(auth)/signup"
         style={styles.textButton}
       >
-        signup
+        注册
       </Link>
     </View>
   )
@@ -80,7 +82,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
     color: Colors.light.tint,
-    marginVertical: 10
+    marginVertical: 10,
+    fontSize: 18
   }
 })
 

@@ -1,8 +1,14 @@
 import { Button, WhiteSpace } from '@ant-design/react-native'
-import { Link } from 'expo-router'
+import { Link, Redirect } from 'expo-router'
 import { View, Text } from 'react-native'
+import { useAuth } from '@/src/providers/authProvider'
 
 const Index = () => {
+  const { session } = useAuth()
+
+  if (!session) return <Redirect href="/login" />
+
+  console.log('index', session)
   return (
     <View className="flex-1 justify-center  items-center bg-white gap-4 px-10">
       <Link
