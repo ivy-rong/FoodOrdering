@@ -28,12 +28,20 @@ export const useProduct = (id: number) => {
     }
   })
 }
-
 export const useInsertProduct = () => {
   const queryClient = useQueryClient()
+
   return useMutation({
-    async mutationFn(product: Omit<Product, 'id'>) {
-      const { data: newProduct, error } = await supabase.from('products').insert(product).single()
+    async mutationFn(data: any) {
+      const { error, data: newProduct } = await supabase
+        .from('products')
+        .insert({
+          name: data.name,
+          image: data.image,
+          price: data.price
+        })
+        .single()
+
       if (error) {
         throw new Error(error.message)
       }
@@ -74,7 +82,7 @@ export const useUpdateProduct = () => {
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    async mutationFn(id: string) {
+    async mutationFn(id: number) {
       const { error } = await supabase.from('products').delete().eq('id', id)
       if (error) {
         throw new Error(error.message)

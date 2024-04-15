@@ -1,45 +1,59 @@
-import products from '@/assets/data/products'
-import Colors from '@/src/constants/Colors'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Image,
-  Pressable,
-  ImageBackground,
-  Alert
-} from 'react-native'
+import { View, Text, StyleSheet, TextInput, Image, Alert } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { PizzaSize, Product } from '@/src/types'
-import { Button, Icon, InputItem, List } from '@ant-design/react-native'
+import { Button } from '@ant-design/react-native'
 import { useImmer } from 'use-immer'
-import { useInsertProduct } from '@/src/api'
+import { useDeleteProduct, useInsertProduct, useProduct, useUpdateProduct } from '@/src/api'
 
 export const defaultPizzaImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 const CreateScreen = () => {
+  const [product, updateProduct] = useImmer<Omit<Product, 'id'>>({
+    name: '',
+    price: null,
+    image: ''
+  })
+  const [id, setId] = useState<number | null>(null)
+
+  const [errors, setErrors] = useState('')
+
   const { id: idString } = useLocalSearchParams()
 
-  const { mutate: insertProduct } = useInsertProduct()
+  const { mutate: insertProduct, isPending: isInsertPengding } = useInsertProduct()
+
+  const { mutate: updatedProduct, isPending: isUpdatePending } = useUpdateProduct()
+
+  const { mutate: deleteProduct, isPending: isDeletePending } = useDeleteProduct()
+
+  const { data: updatingProduct } = useProduct(id!)
 
   const router = useRouter()
 
-  const id = parseFloat(typeof idString === 'string' ? idString : idString?.[0])
+  console.log(typeof idString === 'string', 'typeof idString === ')
+
   const isUpdating = !!idString
 
-  const [product, updateProduct] = useImmer<Omit<Product, 'id'>>({
-    name: '',
-    price: 0,
-    image: ''
-  })
+  useEffect(() => {
+    if (idString) {
+      setId(parseFloat(typeof idString === 'string' ? idString : idString[0]))
+      console.log(id, 'id')
+    }
+  }, [idString])
 
-  const updateProductItem = products.filter((product) => product.id === id)[0]
-
-  const [errors, setErrors] = useState('')
+  useEffect(() => {
+    if (isUpdating) {
+      // 获取更新的值
+      updateProduct((draft) => {
+        //const { name, price, image } = updatingProduct
+        draft.name = updatingProduct?.name
+        draft.price = updatingProduct?.price
+        draft.image = updatingProduct?.image
+      })
+    }
+  }, [id])
 
   const handlePickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -75,50 +89,62 @@ const CreateScreen = () => {
   }
 
   const resetFields = () => {
-    // updateProduct({
-    // })
+    // updateProduct({})
   }
 
   const handleCreate = () => {
-    console.log(product)
+    insertProduct(product, {
+      onSuccess: () => {
+        console.log('Product created successfully')
+        //清空数据
+        resetFields()
+        router.back()
+      }
+    })
   }
-  const handleProduct = () => {}
+  const handleUpdate = () => {
+    updatedProduct(
+      {
+        id: id!,
+        ...product
+      },
+      {
+        onSuccess: () => {
+          console.log('Product updated successfully')
+          //清空数据
+          resetFields()
+          router.back()
+        }
+      }
+    )
+  }
 
   const handelSubmit = () => {
     if (!validateInput()) {
       return
     }
     if (isUpdating) {
-      handleProduct()
+      handleUpdate()
     } else {
       handleCreate()
-      insertProduct(product, {
-        onSuccess: () => {
-          console.log('Product created successfully')
-          //清空数据
-          resetFields()
-          router.back()
-        }
-      })
     }
+  }
+
+  const onDelete = () => {
+    deleteProduct(id!, {
+      onSuccess: () => {
+        resetFields()
+        router.replace('/(admin)')
+      }
+    })
   }
 
   const handleDelete = () => {
     Alert.alert('Are you sure?', 'Do you really want to delete this product?', [
       { text: 'No', style: 'cancel' },
-      { text: 'Yes', onPress: () => console.log('OK Pressed') }
+      { text: 'Yes', onPress: onDelete }
     ])
   }
-
-  useEffect(() => {
-    if (updateProductItem) {
-      updateProduct((draft) => {
-        draft.name = updateProductItem.name
-        draft.price = updateProductItem.price
-        draft.image = updateProductItem.image
-      })
-    }
-  }, [updateProductItem])
 
   return (
     <View
@@ -152,14 +178,20 @@ const CreateScreen = () => {
 
       <Text style={styles.label}>Price</Text>
       <TextInput
-        value={product.price}
+        value={product.price?.toString() || ''}
         onChangeText={(value) => {
           updateProduct((draft) => {
-            draft.price = value
+            if (value === '') {
+              draft.price = null // 或者设置其他默认值
+            } else {
+              const parsedValue = parseFloat(value)
+              draft.price = isNaN(parsedValue) ? null : parsedValue
+            }
           })
         }}
         placeholder="Price"
         style={styles.input}
+        keyboardType="numeric"
       />
 
       <Text className="text-red-400 mb-2">{errors}</Text>
@@ -168,11 +200,19 @@ const CreateScreen = () => {
         type="primary"
         onPress={handelSubmit}
         style={styles.button}
+        disabled={isInsertPengding || isUpdatePending || isDeletePending}
       >
         {isUpdating ? 'update' : 'create'}
       </Button>
 
-      {isUpdating && <Button onPress={handleDelete}>delete</Button>}
+      {isUpdating && (
+        <Button
+          onPress={handleDelete}
+          disabled={isDeletePending || isUpdatePending}
+        >
+          delete
+        </Button>
+      )}
     </View>
   )
 }
