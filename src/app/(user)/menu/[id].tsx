@@ -24,11 +24,11 @@ const ProductDetailsScreen = () => {
 
   const { data: product, isLoading, error } = useProduct(id)
 
-  if (!product) return <Text>product not find</Text>
-
   if (isLoading) return <ActivityIndicator />
 
   if (error) return <Text>{error.message}</Text>
+
+  if (!product) return <Text>product not find</Text>
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 
